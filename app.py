@@ -22,9 +22,10 @@ def main():
 def listen():
     try:
         message = request.get_json()
+        print(message)
     except:
         message = 'Get JSON failed!'
 
-    return render_template('index.html', message = message)
+    return "We have received your message and respond to you shortly!"
 
 
