@@ -20,12 +20,20 @@ def main():
 
 @app.route('/listener', methods=['POST'])
 def listen():
+    text = ''
     try:
         message = request.get_json()
-        print(message)
+        print("JSON Message:", message)
+        if 'payload' in message:
+            text = message['payload']['payload']['text']
+        print("Message :", text)
     except:
         message = 'Get JSON failed!'
+        print(message)
 
-    return "We have received your message and respond to you shortly!"
+    if text.lower() == 'hello nanopix':
+        return "Thank you for reaching Nanopix, We are processing your request and respond to you shortly!"
+    else:
+        return "We have received your message and respond to you shortly!"
 
 
