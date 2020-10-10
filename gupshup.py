@@ -32,28 +32,35 @@ def test():
   print("Message :", text)
 
 
+'''
+Method to send a reply message. 
+This will be a in session message. isHSM set to false
+'''
 def send_response(text):
     resp_message = {
     "channel" : "whatsapp",
     "source" : "917834811114",
     "destination" : "919884002018",
     "src.name":"nanopix",
-    "message" : {
+    "message" : json.dumps({
               "isHSM":"false",
               "type": "text",
-              "text": ""
-      }
+              "text": "reply: " + text
+      })
     }
 
     try:
-        resp_message['message']['text'] = text
-
+        # Send message API
         url = 'https://api.gupshup.io/sm/api/v1/msg'
         api_key = '758bf50e1d08458ac5da693eb0c1970d'
         content_type = 'application/x-www-form-urlencoded'
 
         headers = {'content-type': content_type, 'apikey': api_key, 'Cache-Control': 'no-cache'}
-        requests.post(url, headers=headers, data=json.dumps(resp_message))
-        print("Message response sent! : ", resp_message)
+        resp = requests.post(url, headers=headers, data=resp_message)
+        # Async response - Message submitted
+        if resp.status_code == 200:
+            print("Message response sent! : ", resp_message)
+        else:
+            print(resp.content)
     except:
         print("Message response failed! : ", resp_message)

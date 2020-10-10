@@ -32,7 +32,9 @@ def listen():
                 msg_type = 'user_message'
                 if 'payload' in message:
                     text = message['payload']['payload']['text']
-        print("Message :", text)
+                    print("Message :", text)
+            elif message['type'] == 'message-event':
+                print("Event :", message['payload']['type'])
     except:
         message = 'Get JSON failed!'
         print(message)
@@ -57,5 +59,5 @@ def send():
     resp = Response(status=200, mimetype='application/json')
     return resp
 
-#if __name__ == '__main__':
-    #app.run(host="localhost", port=8080, debug=True)
+if __name__ == '__main__':
+    app.run(host="localhost", port=8080, debug=True)
