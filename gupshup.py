@@ -64,3 +64,18 @@ def send_response(text):
             print(resp.content)
     except:
         print("Message response failed! : ", resp_message)
+
+
+def write_db(msg):
+    try:
+        # Write to the API
+        url = "http://cxgeek.herokuapp.com/dblistener"
+
+        resp = requests.post(url, json=msg)
+
+        if resp.status_code == 200:
+            print("DB write successful!")
+        else:
+            print(resp.content)
+    except:
+        print("DB write failed! : ", msg)
