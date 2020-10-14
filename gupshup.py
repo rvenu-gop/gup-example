@@ -79,3 +79,26 @@ def write_db(msg):
             print(resp.content)
     except:
         print("DB write failed! : ", msg)
+
+
+def get_bot_response(user_msg):
+    url = 'https://nanopixbot.herokuapp.com/webhooks/rest/webhook'
+    req = {
+        "message": user_msg,
+        "sender": 1001,
+    }
+    text = 'bot: '
+    try:
+        resp = requests.post(url, json=req)
+        if len(resp.text) > 0:
+            data = json.loads(resp.text)
+            for item in data:
+                if "text" in item:
+                    text = text + " " + item["text"]
+                if "image" in item:
+                    text = text + " " + item["image"]
+        print("Bot response :", text)
+    except:
+        print("Error in rasa bot!")
+
+    return text

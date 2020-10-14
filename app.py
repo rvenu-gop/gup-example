@@ -8,7 +8,7 @@ import json
 from flask import Flask, request, Response, redirect, url_for
 from flask import render_template
 
-from gupshup import send_response, write_db
+from gupshup import send_response, write_db, get_bot_response
 import requests
 
 app = Flask(__name__)
@@ -48,12 +48,14 @@ def listen():
         print(message)
 
     if msg_type == 'user_message':
-        if text.lower() == 'hello nanopix':
-            result = "Thank you for reaching Nanopix, We are processing your request and respond to you shortly!"
-            send_response(result)
-        elif text != '':
-            result = "We have received your message and respond to you shortly!"
-            send_response(result)
+        if text != '':
+            result = get_bot_response(text)
+            if result != 'bot: ':
+                send_response(result)
+            else:
+                print("No response from bot!")
+                result = "We have received your message and respond to you shortly!"
+                send_response(result)
 
     resp = Response(status=200, mimetype='application/json')
     return resp
