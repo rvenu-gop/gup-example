@@ -25,6 +25,7 @@ def main():
 def listen():
     text = ''
     msg_type = ''
+    app = ''
     try:
         message = request.get_json()
         # Let's try writing all the received messages
@@ -36,8 +37,12 @@ def listen():
 
         print("JSON Message:", message)
         if "type" in message:
+            # Find app type
+            if "app" in message:
+                app = message['app']
             if message['type'] == 'message':
                 msg_type = 'user_message'
+
                 if 'payload' in message:
                     text = message['payload']['payload']['text']
                     print("Message :", text)
@@ -49,13 +54,15 @@ def listen():
 
     if msg_type == 'user_message':
         if text != '':
-            result = get_bot_response(text)
+            result = get_bot_response(text, app)
             if result != 'bot: ':
-                send_response(result)
+                if app == "nanopix":
+                    send_response(result)
             else:
                 print("No response from bot!")
                 result = "We have received your message and respond to you shortly!"
-                send_response(result)
+                if app == 'nanopix':
+                    send_response(result)
 
     resp = Response(status=200, mimetype='application/json')
     return resp

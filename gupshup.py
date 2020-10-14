@@ -81,11 +81,16 @@ def write_db(msg):
         print("DB write failed! : ", msg)
 
 
-def get_bot_response(user_msg):
+def get_bot_response(user_msg, app):
     url = 'https://nanopixbot.herokuapp.com/webhooks/rest/webhook'
+    if app == 'nanopix':
+        sender = 200
+    else:
+        sender = 1
+
     req = {
         "message": user_msg,
-        "sender": 1001,
+        "sender": sender
     }
     text = 'bot: '
     try:
