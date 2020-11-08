@@ -82,7 +82,7 @@ def write_db(msg):
 
 
 def get_bot_response(user_msg, app):
-    url = 'https://nanopixbot.herokuapp.com/webhooks/rest/webhook'
+    url = 'https://nanopixissbot.herokuapp.com/webhooks/rest/webhook'
     if app == 'nanopix':
         sender = 200
     else:
